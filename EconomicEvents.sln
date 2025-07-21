@@ -1,0 +1,25 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 17
+VisualStudioVersion = 17.14.36301.6
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "EconomicEvents", "EconomicEvents\EconomicEvents.csproj", "{47F2429A-1581-46A0-A562-29BC48BFE982}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{47F2429A-1581-46A0-A562-29BC48BFE982}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{47F2429A-1581-46A0-A562-29BC48BFE982}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{47F2429A-1581-46A0-A562-29BC48BFE982}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{47F2429A-1581-46A0-A562-29BC48BFE982}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {634BAAC4-9FBA-46B5-A3EA-041639503C99}
+	EndGlobalSection
+EndGlobal
