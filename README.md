@@ -31,7 +31,7 @@ not an event scheduled in a region, a check against it's chance level is made to
 it will get one. If it doesn't get an event, the chance it gets one made is raised by a 
 random amount. If it does get an event scheduled, it's chance level is dropped to its 
 baseline level. When an event is scheduled, it is assigned a random day that it will 
-become active. Only when an event is active is when port dude will tell you about them. 
+become active. Only when an event is active is when port dude will tell you about them.  
 <br>
 For global events, events that will affect every port, if no region has a scheduled 
 event there is a chance that a global event will be scheduled.
