@@ -25,15 +25,15 @@ Even if you do not hear about an event prices are still affected by an active ev
 
 ### How Events Are Scheduled
 
-For normal events, events that only affect one port, each region can only have one event 
-scheduled. Every 14th day, each region is checked to see if it has an event. If there is 
-not an event scheduled in a region, a check against it's chance level is made to see if 
-it will get one. If it doesn't get an event, the chance it gets one made is raised by a 
-random amount. If it does get an event scheduled, it's chance level is dropped to its 
-baseline level. When an event is scheduled, it is assigned a random day that it will 
-become active. Only when an event is active is when port dude will tell you about them.  
+For normal events: Each region can only have one event scheduled at one port. Every 14th 
+day, each region is checked to see if it has an event. If there is not an event scheduled 
+in a region, a check against it's chance level is made to see if it will get one. If it 
+doesn't get an event, the chance it gets one made is raised by a random amount. If it does 
+get an event scheduled, it's chance level is dropped to its baseline level. When an event 
+is scheduled, it is assigned a random day that it will become active. Only when an event 
+is active is when port dude will tell you about them.  
 <br>
-For global events, events that will affect every port, if no region has a scheduled 
+For global events: The event will affect every port. If no region has a scheduled 
 event there is a chance that a global event will be scheduled.
 
 ## Configurable
