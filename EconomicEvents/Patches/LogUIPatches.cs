@@ -26,7 +26,7 @@ namespace EconomicEvents
                 if (mode == MissionListMode.reputation)
                 {
                     eventsUI.SetActive(true);
-                    EventsUI.Instance.UpdateTexts();
+                    EventsUI.Instance.UpdatePage();
                 }
             }
 
