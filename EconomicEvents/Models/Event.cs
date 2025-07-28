@@ -63,6 +63,9 @@ namespace EconomicEvents
         // barrel cider 228 (58)
         // crate iron 21
         // logs 205 (35)
+        // rabbit furs 220 (50)
+        // marble 225 (55)
+        // crate copper 23
 
         internal static void InitializeEvents()
         {
@@ -141,7 +144,7 @@ namespace EconomicEvents
                 new Event
                 (
                     7,
-                    "Gold and Gems Needed",
+                    "Increased Relic Production",
                     "Interest in relics is rising. They need gold and gems in Aestra\nAbbey to make more.",
                     new int[] { 20, 22 },
                     3,
@@ -227,6 +230,16 @@ namespace EconomicEvents
                     5,
                     14,
                     new int[] { 999 }
+                ),
+                new Event
+                (
+                    16,
+                    "Explosive Event",
+                    "Moments away from figuring out the how to create gold from everyday\nitems, they suffered an explosion damaging all of their materials.",
+                    new int[] { 11, 23, 50, 55 },
+                    2,
+                    14,
+                    new int[] { 4 }
                 )
             };
         }
