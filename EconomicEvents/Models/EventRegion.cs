@@ -37,6 +37,9 @@ namespace EconomicEvents
                     new EventPort(4, "Alchemist's Island"),
                     new EventPort(5, "Al'Ankh Academy"),
                     new EventPort(6, "Oasis"),
+                    new EventPort(31, "Old Ankh Town"),
+                    new EventPort(32, "Mirage Mountain"),
+                    new EventPort(33, "Saffron Island"),
                 }
             );
 
