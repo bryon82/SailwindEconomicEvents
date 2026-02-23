@@ -119,6 +119,16 @@ namespace EconomicEvents
         internal void LoadPortsWithEvents(List<EventPort> portsWithEvents)
         {
             PortsWithEvents = portsWithEvents;
+            foreach (var port in PortsWithEvents)
+            {
+                var matchedPort = EventRegion.AllPorts.Where(p => p.Index == port.Index).FirstOrDefault();
+                if (matchedPort != null)
+                {
+                    matchedPort.AssignedEvent = port.AssignedEvent;
+                    matchedPort.DayEventStarts = port.DayEventStarts;
+                    matchedPort.DayEventEnds = port.DayEventEnds;
+                }
+            }
         }
 
         internal void LoadRegionChance(Dictionary<int, int> regionChance)

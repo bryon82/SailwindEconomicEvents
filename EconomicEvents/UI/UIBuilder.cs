@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using HarmonyLib;
+using System.Collections.Generic;
 using UnityEngine;
 using static EconomicEvents.EE_Plugin;
 
@@ -8,12 +9,27 @@ namespace EconomicEvents
     {
         private const int HEADER_FONT_SIZE = 55;
         private const int FONT_SIZE = 42;
-        
-        internal static GameObject MakeEventsUI(GameObject repUI, GameObject modeButtons)
-        {
-            var bookmarkRep = modeButtons.transform.GetChild(5).gameObject;
-            bookmarkRep.transform.GetChild(0).gameObject.GetComponent<TextMesh>().text = "events & rep";
+        internal const MissionListMode EVENTS = (MissionListMode)8;
 
+        internal static void MakeBookmark(GameObject modeButtons)
+        {
+            var bookmarkReceipts = modeButtons.transform.GetChild(9).gameObject;
+
+            var bookmark = GameObject.Instantiate(bookmarkReceipts);
+            bookmark.transform.parent = modeButtons.transform;
+            bookmark.transform.localPosition = new Vector3(-0.515f, -0.0032f, 0.071f);
+            bookmark.transform.localRotation = Quaternion.Euler(270f, 180f, 0f);
+            bookmark.transform.localScale = bookmarkReceipts.transform.localScale;
+            bookmark.name = "bookmark events";
+            bookmark.transform.GetChild(0).gameObject.GetComponent<TextMesh>().text = "events";
+            bookmark.transform.GetChild(0).localRotation = Quaternion.Euler(0f, 180f, 180f);
+            var sGPButtonLogMode = bookmark.GetComponent<GPButtonLogMode>();
+            Traverse.Create(sGPButtonLogMode).Field("mode").SetValue(EVENTS);
+            Object.Destroy(bookmark.GetComponent<cakeslice.Outline>());
+        }
+
+        internal static GameObject MakeEventsUI(GameObject repUI)
+        {
             var eventsUI = GameObject.Instantiate(repUI);
             Object.Destroy(eventsUI.GetComponent<ReputationUI>());
             eventsUI.transform.parent = repUI.transform.parent;
@@ -21,11 +37,17 @@ namespace EconomicEvents
             eventsUI.transform.localRotation = repUI.transform.localRotation;
             eventsUI.transform.localScale = repUI.transform.localScale;
             eventsUI.name = "events ui";
+            Object.Destroy(eventsUI.transform.GetChild(7).gameObject);
+            Object.Destroy(eventsUI.transform.GetChild(6).gameObject);
+            Object.Destroy(eventsUI.transform.GetChild(5).gameObject);
+            Object.Destroy(eventsUI.transform.GetChild(4).gameObject);
+            Object.Destroy(eventsUI.transform.GetChild(3).gameObject);
             Object.Destroy(eventsUI.transform.GetChild(2).gameObject);
-            Object.Destroy(eventsUI.transform.GetChild(1).gameObject);
+            Object.Destroy(eventsUI.transform.GetChild(0).gameObject);
             eventsUI.AddComponent<EventsUI>();
 
-            var eventTextGO = eventsUI.transform.GetChild(0).gameObject;
+            var eventTextGO = eventsUI.transform.GetChild(1).gameObject;
+            eventTextGO.SetActive(true);
             eventTextGO.transform.localPosition = new Vector3(0.835f, -0.085f, -0.007f);
             eventTextGO.GetComponent<TextMesh>().font = eventTextGO.transform.GetChild(1).GetComponent<TextMesh>().font;
             eventTextGO.GetComponent<TextMesh>().fontSize = FONT_SIZE;

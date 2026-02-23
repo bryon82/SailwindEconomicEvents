@@ -14,16 +14,17 @@ namespace EconomicEvents
             [HarmonyPatch("Start")]
             public static void StartPatch(GameObject ___modeButtons, GameObject ___reputationUI)
             {
-                eventsUI = UIBuilder.MakeEventsUI(___reputationUI, ___modeButtons);
+                UIBuilder.MakeBookmark(___modeButtons);
+                eventsUI = UIBuilder.MakeEventsUI(___reputationUI);
             }
 
-            [HarmonyBefore(new string[] { "com.raddude82.sailadex" })]
+            [HarmonyAfter(new string[] { "com.raddude82.sailadex" })]
             [HarmonyPostfix]
             [HarmonyPatch("SwitchMode")]
             public static void SwitchModePatches(MissionListMode mode)
             {
                 eventsUI.SetActive(false);
-                if (mode == MissionListMode.reputation)
+                if (mode == UIBuilder.EVENTS)
                 {
                     eventsUI.SetActive(true);
                     EventsUI.Instance.UpdatePage();
