@@ -2,6 +2,11 @@
 
 All notable changes to this project will be documented in this file.
 
+## [v1.0.3] - 2026-04-24
+
+### Fixed
+- UI character size and line spacing bug in event description.
+
 ## [v1.0.2] - 2026-02-23
 
 ### Fixed

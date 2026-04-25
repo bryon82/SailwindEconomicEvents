@@ -51,6 +51,7 @@ namespace EconomicEvents
             eventTextGO.transform.localPosition = new Vector3(0.835f, -0.085f, -0.007f);
             eventTextGO.GetComponent<TextMesh>().font = eventTextGO.transform.GetChild(1).GetComponent<TextMesh>().font;
             eventTextGO.GetComponent<TextMesh>().fontSize = FONT_SIZE;
+            eventTextGO.GetComponent<TextMesh>().characterSize = 1f;
             eventTextGO.GetComponent<TextMesh>().fontStyle = FontStyle.Bold;
             eventTextGO.GetComponent<TextMesh>().anchor = TextAnchor.UpperLeft;
             eventTextGO.GetComponent<TextMesh>().text = string.Empty;
@@ -59,6 +60,8 @@ namespace EconomicEvents
             eventTextGO.transform.GetChild(0).localPosition = new Vector3(0f, -5f, 0f);
             eventTextGO.transform.GetChild(0).GetComponent<TextMesh>().font = eventTextGO.transform.GetChild(1).GetComponent<TextMesh>().font;
             eventTextGO.transform.GetChild(0).GetComponent<TextMesh>().fontSize = FONT_SIZE;
+            eventTextGO.transform.GetChild(0).GetComponent<TextMesh>().characterSize = 1f;
+            eventTextGO.transform.GetChild(0).GetComponent<TextMesh>().lineSpacing = 1f;
             eventTextGO.transform.GetChild(0).GetComponent<TextMesh>().anchor = TextAnchor.UpperLeft;
             eventTextGO.transform.GetChild(0).GetComponent<TextMesh>().text = string.Empty;
             eventTextGO.transform.GetChild(0).GetComponent<MeshRenderer>().material = eventTextGO.transform.GetChild(1).GetComponent<MeshRenderer>().material;
