@@ -8,7 +8,7 @@ All notable changes to this project will be documented in this file.
 - Changed the release process so hopefully some linux users will no longer have issues when unzipping the release file.
 
 ### Performance Improvements
-- Removed many LINQ operations and replaced with for-llops and cached lookups.
+- Removed many LINQ operations and replaced with for-loops and cached lookups.
 - Cache port/event lookups instead of repeating queries.
 - Cache list of all ports at start instead of rebuilding with each call.
 - Cache built strings for events once when scheduled instead of building each time looked at in log.
