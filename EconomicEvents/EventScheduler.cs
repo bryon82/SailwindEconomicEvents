@@ -11,6 +11,7 @@ namespace EconomicEvents
         public static EventScheduler Instance { get; private set; }
         internal List<EventPort> PortsWithEvents { get; private set; }
         internal Dictionary<int, int> RegionChance { get; private set; }
+        private readonly List<Event> _eventBuffer = new List<Event>();
 
         public void Awake()
         {
@@ -36,19 +37,24 @@ namespace EconomicEvents
         {
             PortsWithEvents.RemoveAll(port =>
             {
-                if (GameState.day > port.DayEventEnds)
-                {
-                    port.DayEventStarts = -1;
-                    port.DayEventEnds = -1;
-                    port.AssignedEvent = -1;
-                    var displayPort = EventsUI.Instance.LoggedEventPorts.Where(ep => ep.Index == port.Index).FirstOrDefault();
-                    if (displayPort != null)
-                        EventsUI.Instance.LoggedEventPorts.Remove(displayPort);
+                if (GameState.day <= port.DayEventEnds)
+                    return false;
 
-                    return true;
+                port.DayEventStarts = -1;
+                port.DayEventEnds = -1;
+                port.AssignedEvent = -1;
+
+                var loggedPorts = EventsUI.Instance.LoggedEventPorts;
+                for (var i = loggedPorts.Count - 1; i >= 0; i--)
+                {
+                    if (loggedPorts[i].Index == port.Index)
+                    {
+                        loggedPorts.RemoveAt(i);
+                        break;
+                    }
                 }
 
-                return false;
+                return true;
             });
 
             ScheduleEvents();
@@ -66,29 +72,39 @@ namespace EconomicEvents
 
                 foreach(EventRegion region in EventRegion.AllRegions)
                 {
-                    if (!region.HasAssignedEvent() && Random.Range(0, 100) < RegionChance[region.Index])
+                    if (!region.HasAssignedEvent() && Random.Range(0, 1) < RegionChance[region.Index])
                     {
                         ScheduleEventInRegion(region);
                         RegionChance[region.Index] = eventInRegionBaseChance.Value;
                         LogDebug($"event scheduled in {region.Name} region on day {GameState.day}");
                     }
-                        
+
                     if (!region.HasAssignedEvent())
                     {
                         RegionChance[region.Index] += Random.Range(5, 15);
                         LogDebug($"{region.Name} chance increased to {RegionChance[region.Index]} on day {GameState.day}");
-                    }                        
-                }                
+                    }
+                }
             }
         }
 
         public void ScheduleGlobalEvent()
         {
-            var eventPool = Event.Events
-               .Where(e => e.SpecificPorts.Contains(999))
-               .ToList();
-            var selectedEvent = eventPool.ElementAt(Random.Range(0, eventPool.Count));
+            _eventBuffer.Clear();
+            foreach (var eEvent in Event.Events)
+            {
+                if (eEvent.SpecificPorts.Contains(999))
+                {
+                    _eventBuffer.Add(eEvent);
+                }
+            }
+
+            if (_eventBuffer.Count == 0)            
+                return;            
+
+            var selectedEvent = _eventBuffer[Random.Range(0, _eventBuffer.Count)];
             var dayEventStarts = GameState.day + Random.Range(0, 10);
+            LogDebug($"event scheduled in all ports on day {GameState.day}");
 
             foreach (var port in EventRegion.AllPorts)
             {
@@ -101,12 +117,19 @@ namespace EconomicEvents
 
         public void ScheduleEventInRegion(EventRegion region)
         {
-            var selectedPort = region.Ports[Random.Range(0, region.Ports.Count)];            
+            var selectedPort = region.Ports[Random.Range(0, region.Ports.Count)];
 
-            var eventPool = Event.Events
-                .Where(e => e.SpecificPorts.Contains(selectedPort.Index) || e.SpecificPorts.Length == 0)
-                .ToList();
-            var selectedEvent = eventPool.ElementAt(Random.Range(0, eventPool.Count));
+            _eventBuffer.Clear();
+            foreach (var eEvent in Event.Events)
+            {
+                if (eEvent.SpecificPorts.Length == 0 || eEvent.SpecificPorts.Contains(selectedPort.Index))                
+                    _eventBuffer.Add(eEvent);                
+            }
+
+            if (_eventBuffer.Count == 0)            
+                return;            
+
+            var selectedEvent = _eventBuffer[Random.Range(0, _eventBuffer.Count)];
 
             var dayEventStarts = GameState.day + Random.Range(0, 10);
             selectedPort.AssignedEvent = selectedEvent.Id;
@@ -121,7 +144,7 @@ namespace EconomicEvents
             PortsWithEvents = portsWithEvents;
             foreach (var port in PortsWithEvents)
             {
-                var matchedPort = EventRegion.AllPorts.Where(p => p.Index == port.Index).FirstOrDefault();
+                var matchedPort = EventRegion.FindPort(port.Index);
                 if (matchedPort != null)
                 {
                     matchedPort.AssignedEvent = port.AssignedEvent;

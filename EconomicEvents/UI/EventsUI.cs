@@ -1,5 +1,4 @@
 ﻿using System.Collections.Generic;
-using System.Linq;
 using UnityEngine;
 
 namespace EconomicEvents
@@ -42,7 +41,9 @@ namespace EconomicEvents
                 return;
             }
 
-            if (Event.Events.FirstOrDefault(e => e.Id == LoggedEventPorts.ElementAt(0).AssignedEvent).SpecificPorts.ElementAtOrDefault(0) == 999)
+            if (Event.EventsById.TryGetValue(LoggedEventPorts[0].AssignedEvent, out var globalEvent) &&
+                globalEvent.SpecificPorts.Length > 0 &&
+                globalEvent.SpecificPorts[0] == 999)
             {
                 UpdateTexts(0, true);
                 return;
@@ -56,21 +57,15 @@ namespace EconomicEvents
 
         private void UpdateTexts(int i, bool global)
         {
-            var eEvent = Event.Events.FirstOrDefault(e => e.Id == LoggedEventPorts.ElementAt(i).AssignedEvent);
-
-            var items = string.Empty;
-            foreach (var goodIndex in eEvent.GoodIndexes)
+            if (!Event.EventsById.TryGetValue(LoggedEventPorts[i].AssignedEvent, out var eEvent))
             {
-                var itemIndex = PrefabsDirectory.GoodToItemIndex(goodIndex);
-                var item = PrefabsDirectory.instance.GetItem(itemIndex);
-                item = item ?? PrefabsDirectory.instance.GetItem(goodIndex);
-                items += $"<b>{item.name}</b>, ";
+                return;
             }
-            items = items.Substring(0, items.Length - 2);
 
-            var numDays = LoggedEventPorts.ElementAt(i).DayEventEnds - GameState.day;
+            var items = eEvent.GetItemsDisplay();
+            var numDays = LoggedEventPorts[i].DayEventEnds - GameState.day;
 
-            _eventTMs[$"event{i}"].text = global ? $"{eEvent.Name}" : $"{eEvent.Name} in {LoggedEventPorts.ElementAt(i).Name}";
+            _eventTMs[$"event{i}"].text = global ? $"{eEvent.Name}" : $"{eEvent.Name} in {LoggedEventPorts[i].Name}";
             _eventTMs[$"event{i}_description"].text = eEvent.EventText;
             _eventTMs[$"event{i}_items"].text = global ? $"Items affected: {items}" : $"Items needed: {items}";
             _eventTMs[$"event{i}_multiplier"].text = $"Price multiplier: <b>{eEvent.PriceMult}X</b>";

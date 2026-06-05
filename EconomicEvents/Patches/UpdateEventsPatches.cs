@@ -1,5 +1,4 @@
 ﻿using HarmonyLib;
-using System.Linq;
 using UnityEngine;
 
 namespace EconomicEvents
@@ -15,7 +14,9 @@ namespace EconomicEvents
             [HarmonyPatch("Awake")]
             public static void CopyMenu(BuyItemUI __instance)
             {
-                if (_initialized) return;
+                if (_initialized) 
+                    return;
+
                 _initialized = true;
 
                 var updateEventsUI = GameObject.Instantiate(__instance.menu.transform.parent.gameObject);
@@ -41,10 +42,28 @@ namespace EconomicEvents
             {
                 if (other.CompareTag("Player"))
                 {
-                    var activeEvents = EventScheduler.Instance.PortsWithEvents.Where(ep => ep.IsEventActive()).ToList();
-                    
-                    if (!activeEvents.All(ae => EventsUI.Instance.LoggedEventPorts.Any(le => le.Index == ae.Index)))
-                        UpdateEventsUI.Instance.ActivateUI(__instance);                    
+                    var loggedPorts = EventsUI.Instance.LoggedEventPorts;
+                    foreach (var port in EventScheduler.Instance.PortsWithEvents)
+                    {
+                        if (!port.IsEventActive())                        
+                            continue;
+
+                        var found = false;
+                        for (var i = 0; i < loggedPorts.Count; i++)
+                        {
+                            if (loggedPorts[i].Index == port.Index)
+                            {
+                                found = true;
+                                break;
+                            }
+                        }
+
+                        if (!found)
+                        {
+                            UpdateEventsUI.Instance.ActivateUI(__instance);
+                            break;
+                        }
+                    }
                 }
             }
 

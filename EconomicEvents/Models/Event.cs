@@ -8,12 +8,14 @@ namespace EconomicEvents
     {
         internal int Id { get; private set; }
         internal string Name { get; private set; }
-        internal string EventText { get; private set; }        
+        internal string EventText { get; private set; }
         internal int[] GoodIndexes { get; private set; }
+        internal HashSet<int> GoodIndexSet { get; private set; }
         internal int PriceMult { get; private set; }
         internal int EventDuration { get; private set; }
         internal int[] SpecificPorts { get; private set; }
         internal static List<Event> Events { get; private set; }
+        internal static Dictionary<int, Event> EventsById { get; private set; }
         internal static Dictionary<int, int> ItemToCrateConversion { get; } = new Dictionary<int, int>
         {
             { 33, 1 }, // salmon
@@ -35,12 +37,15 @@ namespace EconomicEvents
             { 149, 54 }, // apple
         };
 
+        private string _itemsDisplay;
+
         private Event(int id, string name, string eventText, int[] goodIndexes, int priceMult, int eventDuration, int[] ports)
         {
             Id = id;
             Name = name;
             EventText = eventText;
             GoodIndexes = goodIndexes;
+            GoodIndexSet = new HashSet<int>(goodIndexes);
             PriceMult = priceMult;
             EventDuration = eventDuration;
             SpecificPorts = ports;
@@ -242,6 +247,28 @@ namespace EconomicEvents
                     new int[] { 4 }
                 )
             };
+
+            EventsById = Events.ToDictionary(e => e.Id, e => e);
+        }
+
+        internal string GetItemsDisplay()
+        {
+            if (_itemsDisplay != null)            
+                return _itemsDisplay;
+            
+            var items = new List<string>(GoodIndexes.Length);
+            foreach (var goodIndex in GoodIndexes)
+            {
+                var itemIndex = PrefabsDirectory.GoodToItemIndex(goodIndex);
+                var item = PrefabsDirectory.instance.GetItem(itemIndex) ?? PrefabsDirectory.instance.GetItem(goodIndex);
+                if (item != null)
+                {
+                    items.Add($"<b>{item.name}</b>");
+                }
+            }
+
+            _itemsDisplay = string.Join(", ", items);
+            return _itemsDisplay;
         }
 
         private static int[] Ingredients()

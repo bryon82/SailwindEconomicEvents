@@ -103,17 +103,26 @@ namespace EconomicEvents
             FireFishLagoon
         }.AsReadOnly();
 
-        public static IReadOnlyList<EventPort> AllPorts
+        private static readonly IReadOnlyList<EventPort> AllPortsList;
+        private static readonly Dictionary<int, EventPort> PortsByIndex;
+
+        static EventRegion()
         {
-            get
+            var allPorts = new List<EventPort>();
+            foreach (var region in AllRegions)
             {
-                var allPorts = new List<EventPort>();
-                foreach (var region in AllRegions)
-                {
-                    allPorts.AddRange(region.Ports);
-                }
-                return allPorts.AsReadOnly();
+                allPorts.AddRange(region.Ports);
             }
+            AllPortsList = allPorts.AsReadOnly();
+            PortsByIndex = allPorts.ToDictionary(p => p.Index, p => p);
+        }
+
+        public static IReadOnlyList<EventPort> AllPorts => AllPortsList;
+
+        public static EventPort FindPort(int index)
+        {
+            PortsByIndex.TryGetValue(index, out var port);
+            return port;
         }
 
         public static bool AnyAssignedEvents()

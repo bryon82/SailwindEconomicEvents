@@ -1,5 +1,4 @@
 ﻿using HarmonyLib;
-using System.Linq;
 
 namespace EconomicEvents
 {
@@ -12,14 +11,22 @@ namespace EconomicEvents
             [HarmonyPatch("GetGoodPriceAtSupply")]
             public static void EventPriceAdjust(int goodIndex, IslandMarket __instance, ref int __result)
             {
-                var eventPort = EventScheduler.Instance.PortsWithEvents
-                    .Where(p => p.Index == __instance.GetPortIndex() && p.IsEventActive())
-                    .FirstOrDefault();
+                EventPort eventPort = null;
+                var portIndex = __instance.GetPortIndex();
+                foreach (var port in EventScheduler.Instance.PortsWithEvents)
+                {
+                    if (port.Index == portIndex && port.IsEventActive())
+                    {
+                        eventPort = port;
+                        break;
+                    }
+                }
 
-                var eEvent = eventPort == null ? null :
-                    Event.Events.Where(e => e.Id == eventPort.AssignedEvent).FirstOrDefault();
+                if (eventPort == null)                
+                    return;                
 
-                if (eventPort != null && eEvent.GoodIndexes.Contains(goodIndex))
+                Event.EventsById.TryGetValue(eventPort.AssignedEvent, out var eEvent);
+                if (eEvent != null && eEvent.GoodIndexSet.Contains(goodIndex))
                 {
                     __result *= eEvent.PriceMult;
                 }
@@ -33,18 +40,31 @@ namespace EconomicEvents
             [HarmonyPatch("GetPrice")]
             public static void EventPriceAdjust(ShipItem item, Shopkeeper __instance, ref int __result)
             {
-                if (item.IsBulk())                
+                if (item.IsBulk())
                     return;
-                
-                var eventPort = EventScheduler.Instance.PortsWithEvents
-                    .Where(p => p.Index == Refs.islands[__instance.GetComponentInParent<IslandSceneryScene>().parentIslandIndex].GetComponentInChildren<Port>().portIndex && p.IsEventActive())
-                    .FirstOrDefault();
-                var eEvent = eventPort == null ? null :
-                    Event.Events.Where(e => e.Id == eventPort.AssignedEvent).FirstOrDefault();
-                if (eventPort != null && 
-                    (eEvent.GoodIndexes.Contains(item.gameObject.GetComponent<SaveablePrefab>().prefabIndex) ||
-                    eEvent.GoodIndexes.Contains(Event.ItemToCrateConversion.TryGetValue(item.gameObject.GetComponent<SaveablePrefab>().prefabIndex, out int crateIndex) ? crateIndex : -1)
-                    ))
+
+                var islandScene = __instance.GetComponentInParent<IslandSceneryScene>();
+                var portIndex = Refs.islands[islandScene.parentIslandIndex].GetComponentInChildren<Port>().portIndex;
+                EventPort eventPort = null;
+                foreach (var port in EventScheduler.Instance.PortsWithEvents)
+                {
+                    if (port.Index == portIndex && port.IsEventActive())
+                    {
+                        eventPort = port;
+                        break;
+                    }
+                }
+
+                if (eventPort == null)                
+                    return;                
+
+                Event.EventsById.TryGetValue(eventPort.AssignedEvent, out var eEvent);
+                if (eEvent == null)                
+                    return;                
+
+                var prefabIndex = item.gameObject.GetComponent<SaveablePrefab>().prefabIndex;
+                var hasCrateIndex = Event.ItemToCrateConversion.TryGetValue(prefabIndex, out var crateIndex);
+                if (eEvent.GoodIndexSet.Contains(prefabIndex) || (hasCrateIndex && eEvent.GoodIndexSet.Contains(crateIndex)))
                 {
                     __result *= eEvent.PriceMult;
                 }
