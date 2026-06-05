@@ -72,7 +72,7 @@ namespace EconomicEvents
 
                 foreach(EventRegion region in EventRegion.AllRegions)
                 {
-                    if (!region.HasAssignedEvent() && Random.Range(0, 1) < RegionChance[region.Index])
+                    if (!region.HasAssignedEvent() && Random.Range(0, 100) < RegionChance[region.Index])
                     {
                         ScheduleEventInRegion(region);
                         RegionChance[region.Index] = eventInRegionBaseChance.Value;
