@@ -245,7 +245,147 @@ namespace EconomicEvents
                     2,
                     14,
                     new int[] { 4 }
-                )
+                ),
+                new Event
+                (
+                    17,
+                    "New Tavern",
+                    "A new tavern is opening up and they need supplies to get it up\nand running.",
+                    new int[] { 12, 36, 58 },
+                    2,
+                    14,
+                    new int[] { 9 }
+                ),
+                new Event
+                (
+                    18,
+                    "New Restaurant",
+                    "A new restaurant is opening up and they need supplies to get it up\nand running.",
+                    new int[] { 11, 23, 50, 55 },
+                    2,
+                    14,
+                    new int[] { 4 }
+                ),
+                new Event
+                (
+                    19,
+                    "Naval Blockade",
+                    "A naval blockade has cut off trade routes. Smugglers are paying\na premium for goods that can slip through.",
+                    new int[] { 11, 13, 28 },
+                    3,
+                    14,
+                    new int[] {}
+                ),
+                new Event
+                (
+                    20,
+                    "Monastery Brewing",
+                    "The local monastery has taken up brewing and needs supplies\nto expand their operation.",
+                    new int[] { 12, 36, 58 },
+                    2,
+                    14,
+                    new int[] {}
+                ),
+                new Event
+                (
+                    21,
+                    "Copper Shortage",
+                    "A collapse at the main copper mine has halted production.\nPorts are scrambling for any supply.",
+                    new int[] { 23 },
+                    3,
+                    14,
+                    new int[] { 999 }
+                ),
+                new Event
+                (
+                    22,
+                    "Pirate Raid",
+                    "Pirates ransacked the town's stores. The port is restocking\nessentials and will pay well for delivered goods.",
+                    new int[] { 10, 26, 29 },
+                    2,
+                    14,
+                    new int[] {}
+                ),
+                new Event
+                (
+                    23,
+                    "Royal Visit",
+                    "Royalty is visiting the port and the locals are scrambling\nto prepare a proper feast and celebration.",
+                    new int[] { 11, 13, 36, 58 },
+                    3,
+                    7,
+                    new int[] {}
+                ),
+                new Event
+                (
+                    24,
+                    "Tanner's Guild Strike",
+                    "The tanners have walked off the job. Fur prices have spiked\nas finished leather goods dry up.",
+                    new int[] { 50 },
+                    3,
+                    14,
+                    new int[] {}
+                ),
+                new Event
+                (
+                    25,
+                    "Alchemist Convention",
+                    "Alchemists from across the region have gathered. They are\npaying handsomely for rare materials.",
+                    new int[] { 20, 22, 23, 55 },
+                    3,
+                    7,
+                    new int[] { 4 }
+                ),
+                new Event
+                (
+                    26,
+                    "Cathedral Construction",
+                    "A grand cathedral is being built and the port needs large\nquantities of stone and materials.",
+                    new int[] { 47, 48, 55 },
+                    3,
+                    21,
+                    new int[] {}
+                ),
+                new Event
+                (
+                    27,
+                    "Flooded Mines",
+                    "Flooding has shut down the iron mines. Smiths across the\nregion are paying top coin for any iron available.",
+                    new int[] { 21 },
+                    4,
+                    14,
+                    new int[] { 999 }
+                ),
+                new Event
+                (
+                    28,
+                    "Shipwright Boom",
+                    "A surge in merchant activity has every shipyard booked solid.\nThey are buying timber at record prices.",
+                    new int[] { 35, 47 },
+                    3,
+                    21,
+                    new int[] {}
+                ),
+                new Event
+                (
+                    29,
+                    "Scurvy Outbreak",
+                    "Scurvy has broken out among the sailors and locals alike.\nFresh fruit is being bought up as fast as it arrives.",
+                    new int[] { 17, 44, 54, 2 },
+                    3,
+                    14,
+                    new int[] {}
+                ),
+                new Event
+                (
+                    30,
+                    "Merchants' Summit",
+                    "Trade representatives from across the region have convened.\nLuxury goods are commanding extraordinary prices.",
+                    new int[] { 5, 20, 22, 28 },
+                    3,
+                    7,
+                    new int[] {}
+                ),
             };
 
             EventsById = Events.ToDictionary(e => e.Id, e => e);

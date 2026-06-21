@@ -9,12 +9,12 @@ namespace EconomicEvents
     [BepInDependency(MODSAVEBACKUPS_GUID, MODSAVEBACKUPS_VERSION)]
     public class EE_Plugin : BaseUnityPlugin
     {
-        public const string PLUGIN_GUID = "com.raddude82.economicevents";
+        public const string PLUGIN_GUID = "com.raddude.economicevents";
         public const string PLUGIN_NAME = "EconomicEvents";
-        public const string PLUGIN_VERSION = "1.1.1";
+        public const string PLUGIN_VERSION = "1.2.0";
 
-        public const string MODSAVEBACKUPS_GUID = "com.raddude82.modsavebackups";
-        public const string MODSAVEBACKUPS_VERSION = "1.1.1";
+        public const string MODSAVEBACKUPS_GUID = "com.raddude.modsavebackups";
+        public const string MODSAVEBACKUPS_VERSION = "1.2.0";
 
         internal static EE_Plugin Instance { get; private set; }
         private static ManualLogSource _logger;

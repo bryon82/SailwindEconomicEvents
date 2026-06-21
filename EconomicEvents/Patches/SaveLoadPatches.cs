@@ -2,7 +2,9 @@
 using ModSaveBackups;
 using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
+using UnityEngine;
 using static EconomicEvents.EE_Plugin;
 
 namespace EconomicEvents
@@ -34,6 +36,13 @@ namespace EconomicEvents
             [HarmonyPatch("LoadModData")]
             public static void LoadModDataPatch()
             {
+                var oldSavesFile = $"{Application.persistentDataPath}/slot{SaveSlots.currentSlot}/com.raddude82.economicevents.save";
+                if (File.Exists(oldSavesFile))
+                {
+                    LogInfo($"Found old save file");
+                    RenameOldSaves();
+                }
+
                 if (!ModSave.Load(Instance.Info, out EconomicEventsSaveContainer saveContainer))
                 {
                     LogWarning("Save file loading failed. If this is the first time loading this save with this mod, this is normal.");
@@ -63,6 +72,20 @@ namespace EconomicEvents
                 gameDict[item.Key] = item.Value;
             }
         }
+
+        public static void RenameOldSaves()
+        {
+            string oldSavesDir = $"{Application.persistentDataPath}/slot{SaveSlots.currentSlot}";
+            if (Directory.Exists(oldSavesDir))
+            {
+                foreach (var file in Directory.GetFiles(oldSavesDir))
+                {
+                    var newFileName = file.Replace("raddude82.economicevents", "raddude.economicevents");
+                    LogInfo($"Renaming old economicevents save file {file} to {newFileName}");
+                    File.Move(file, newFileName);
+                }
+            }
+        }
     }
 
     [Serializable]
@@ -70,6 +93,6 @@ namespace EconomicEvents
     {
         public List<EventPort> loggedEventPorts;
         public List<EventPort> portsWithEvents;
-        public Dictionary<int, int> regionChance;        
+        public Dictionary<int, int> regionChance;
     }
 }

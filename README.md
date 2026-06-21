@@ -5,7 +5,7 @@ Events that affect the prices of items in selected ports.
 ### Requires
 
 * [BepInEx 5.4.23](https://github.com/BepInEx/BepInEx/releases)
-* [ModSaveBackups 1.1.1](https://thunderstore.io/c/sailwind/p/RadDude/ModSaveBackups/)
+* [ModSaveBackups 1.2.0](https://thunderstore.io/c/sailwind/p/RadDude/ModSaveBackups/)
 
 ## Features
 
