@@ -11,7 +11,7 @@ namespace EconomicEvents
     {
         public const string PLUGIN_GUID = "com.raddude.economicevents";
         public const string PLUGIN_NAME = "EconomicEvents";
-        public const string PLUGIN_VERSION = "1.2.0";
+        public const string PLUGIN_VERSION = "1.2.1";
 
         public const string MODSAVEBACKUPS_GUID = "com.raddude.modsavebackups";
         public const string MODSAVEBACKUPS_VERSION = "1.2.0";

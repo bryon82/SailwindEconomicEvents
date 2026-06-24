@@ -2,6 +2,11 @@
 
 All notable changes to this project will be documented in this file.
 
+## [v1.2.1] - 2026-06-23
+
+### Updated
+- Directory searched when attempting to rename modsave files so that it is not hardcoded, for PortableSaves compatibility.
+
 ## [v1.2.0] - 2026-06-21
 
 ### Added

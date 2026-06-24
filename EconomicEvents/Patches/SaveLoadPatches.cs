@@ -36,7 +36,7 @@ namespace EconomicEvents
             [HarmonyPatch("LoadModData")]
             public static void LoadModDataPatch()
             {
-                var oldSavesFile = $"{Application.persistentDataPath}/slot{SaveSlots.currentSlot}/com.raddude82.economicevents.save";
+                var oldSavesFile = $"{ModSave.GetSaveDirectory(SaveSlots.currentSlot)}/com.raddude82.economicevents.save";
                 if (File.Exists(oldSavesFile))
                 {
                     LogInfo($"Found old save file");
@@ -75,7 +75,7 @@ namespace EconomicEvents
 
         public static void RenameOldSaves()
         {
-            string oldSavesDir = $"{Application.persistentDataPath}/slot{SaveSlots.currentSlot}";
+            var oldSavesDir = ModSave.GetSaveDirectory(SaveSlots.currentSlot);
             if (Directory.Exists(oldSavesDir))
             {
                 foreach (var file in Directory.GetFiles(oldSavesDir))
