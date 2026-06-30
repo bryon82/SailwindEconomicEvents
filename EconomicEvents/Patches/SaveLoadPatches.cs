@@ -3,44 +3,48 @@ using ModSaveBackups;
 using System;
 using System.Collections.Generic;
 using System.IO;
-using System.Linq;
-using UnityEngine;
 using static EconomicEvents.EE_Plugin;
 
 namespace EconomicEvents
 {
     internal class SaveLoadPatches
     {
+        internal static bool loadedNewData = false;
+
         [HarmonyPatch(typeof(SaveLoadManager))]
         private class SaveLoadManagerPatches
         {
-            [HarmonyPostfix]
+            [HarmonyPrefix]
             [HarmonyPatch("SaveModData")]
-            public static void DoSaveGamePatch()
+            public static void SaveModData()
             {
-                var saveContainer = new EconomicEventsSaveContainer
-                {
-                    loggedEventPorts = EventsUI.Instance.LoggedEventPorts.ToList(),
+                EventsUI.Instance.SaveEventsUI();
+                EventScheduler.Instance.SaveEventsScheduler();
+            }
 
-                    portsWithEvents = EventScheduler.Instance.PortsWithEvents.ToList(),
-
-                    regionChance = EventScheduler.Instance.RegionChance.ToDictionary(
-                    entry => entry.Key,
-                    entry => entry.Value)
-                };
-
-                ModSave.Save(Instance.Info, saveContainer);
+            [HarmonyPrefix]
+            [HarmonyPatch("LoadModData")]
+            public static void LoadModData()
+            {
+                EventsUI.Instance.LoadEventsUI();
+                EventScheduler.Instance.LoadEventsScheduler();
             }
 
             [HarmonyPostfix]
             [HarmonyPatch("LoadModData")]
-            public static void LoadModDataPatch()
+            public static void LoadModDataOld()
             {
                 var oldSavesFile = $"{ModSave.GetSaveDirectory(SaveSlots.currentSlot)}/com.raddude82.economicevents.save";
                 if (File.Exists(oldSavesFile))
                 {
                     LogInfo($"Found old save file");
                     RenameOldSaves();
+                }
+
+                if (loadedNewData)
+                {
+                    LogDebug("Already loaded mod data from GameState.modData, skipping loading from ModSave file.");
+                    return;
                 }
 
                 if (!ModSave.Load(Instance.Info, out EconomicEventsSaveContainer saveContainer))
@@ -85,7 +89,7 @@ namespace EconomicEvents
                     File.Move(file, newFileName);
                 }
             }
-        }
+        }        
     }
 
     [Serializable]
@@ -93,6 +97,6 @@ namespace EconomicEvents
     {
         public List<EventPort> loggedEventPorts;
         public List<EventPort> portsWithEvents;
-        public Dictionary<int, int> regionChance;
+        public Dictionary<int, int> regionChance;       
     }
 }

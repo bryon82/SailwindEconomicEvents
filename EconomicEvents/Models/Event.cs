@@ -386,6 +386,76 @@ namespace EconomicEvents
                     7,
                     new int[] {}
                 ),
+                new Event
+                (
+                    31,
+                    "Noble Wedding",
+                    "A noble family's wedding has the whole town buying up\nfine goods, drink, and delicacies for the festivities.",
+                    new int[] { 13, 28, 53, 54 },
+                    3,
+                    7,
+                    new int[] {}
+                ),
+                new Event
+                (
+                    32,
+                    "Counterfeit Coin Scandal",
+                    "A counterfeiting ring has been uncovered and trust in local\ncurrency has collapsed. Merchants now demand goods over gold.",
+                    new int[] { 22, 20 },
+                    2,
+                    14,
+                    new int[] {}
+                ),
+                new Event
+                (
+                    33,
+                    "Lighthouse Repair",
+                    "The harbor lighthouse was damaged in a storm and needs\nmaterials before the next bad weather rolls in.",
+                    new int[] { 47, 48, 21 },
+                    2,
+                    7,
+                    new int[] {}
+                ),
+                new Event
+                (
+                    34,
+                    "Wool Shortage",
+                    "A blight has struck the sheep herds. Weavers are paying\nwell for any wool or finished cloth they can find.",
+                    new int[] { 28, 50 },
+                    3,
+                    14,
+                    new int[] {}
+                ),
+                new Event
+                (
+                    35,
+                    "Smugglers' Market",
+                    "A black market has sprung up in the back alleys, offering\nfine prices for goods no questions asked.",
+                    new int[] { 13, 28, 22 },
+                    3,
+                    7,
+                    new int[] {}
+                ),
+                new Event
+                (
+                    36,
+                    "Apothecary Expansion",
+                    "The local apothecary is expanding and stockpiling rare\ningredients and medicines for the coming season.",
+                    new int[] { 26, 32, 46 },
+                    2,
+                    14,
+                    new int[] {}
+                ),
+                new Event
+                (
+                    37,
+                    "Coastal Erosion",
+                    "The coastline is crumbling near the docks and engineers\nneed stone and timber for emergency reinforcement.",
+                    new int[] { 55, 35, 47 },
+                    3,
+                    7,
+                    new int[] {}
+                ),
             };
 
             EventsById = Events.ToDictionary(e => e.Id, e => e);

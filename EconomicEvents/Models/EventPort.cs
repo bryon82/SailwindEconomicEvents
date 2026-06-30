@@ -32,5 +32,10 @@ namespace EconomicEvents
             return AssignedEvent >= 0;
         }
 
+        public string SaveString()
+        {
+            return $"{Index}|{Name}|{AssignedEvent}|{DayEventStarts}|{DayEventEnds}";
+        }
+
     }
 }

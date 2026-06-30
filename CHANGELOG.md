@@ -2,6 +2,14 @@
 
 All notable changes to this project will be documented in this file.
 
+## [v1.3.0] - 2026-06-30
+
+### Added
+- 7 new events.
+
+### Updated
+- Starting the transition away from ModSaveBackups. Economic Events data will now be saved in the main save file. Leaving ModSaveBackups as a dependency for now as it is needed for the load before saving data into the main save file.
+
 ## [v1.2.1] - 2026-06-23
 
 ### Updated

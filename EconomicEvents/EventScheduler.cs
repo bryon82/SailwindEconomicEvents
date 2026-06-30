@@ -154,6 +154,18 @@ namespace EconomicEvents
             }
         }
 
+        internal void LoadEventsScheduler()
+        {
+            PortsWithEvents = ModData.GetEventPortListEntry($"{PLUGIN_GUID}.PortsWithEvents");
+            ModData.LoadDict(ModData.GetDictModDataEntry<int,int>($"{PLUGIN_GUID}.RegionChance"), RegionChance);
+        }
+
+        internal void SaveEventsScheduler()
+        {
+            ModData.AddEventPortListEntry($"{PLUGIN_GUID}.PortsWithEvents", PortsWithEvents);
+            ModData.AddDictEntry($"{PLUGIN_GUID}.RegionChance", RegionChance);
+        }
+
         internal void LoadRegionChance(Dictionary<int, int> regionChance)
         {
             SaveLoadPatches.LoadDictionary(regionChance, RegionChance);

@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using UnityEngine;
+using static EconomicEvents.EE_Plugin;
 
 namespace EconomicEvents
 {
@@ -75,6 +76,16 @@ namespace EconomicEvents
         internal void SetUIElems(Dictionary<string, TextMesh> eventTMs)
         {
             _eventTMs = eventTMs;
+        }
+
+        internal void SaveEventsUI()
+        {
+            ModData.AddEventPortListEntry($"{PLUGIN_GUID}.LoggedEventPorts", LoggedEventPorts);
+        }
+
+        internal void LoadEventsUI()
+        {
+            LoggedEventPorts = ModData.GetEventPortListEntry($"{PLUGIN_GUID}.LoggedEventPorts");
         }
 
         internal void LoadLoggedEventPorts(List<EventPort> loggedEventPorts)
