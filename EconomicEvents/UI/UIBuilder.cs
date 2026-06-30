@@ -11,7 +11,7 @@ namespace EconomicEvents
         private const int FONT_SIZE = 42;
         internal const MissionListMode EVENTS = (MissionListMode)8;
 
-        internal static void MakeBookmark(GameObject modeButtons)
+        internal static GPButtonLogMode[] MakeBookmark(GameObject modeButtons, List<GPButtonLogMode> existingLogModeButtons)
         {
             var bookmarkReceipts = modeButtons.transform.GetChild(9).gameObject;
 
@@ -25,7 +25,12 @@ namespace EconomicEvents
             bookmark.transform.GetChild(0).localRotation = Quaternion.Euler(0f, 180f, 180f);
             var sGPButtonLogMode = bookmark.GetComponent<GPButtonLogMode>();
             Traverse.Create(sGPButtonLogMode).Field("mode").SetValue(EVENTS);
+            Traverse.Create(sGPButtonLogMode).Field("inactiveLocalPos").SetValue(new Vector3(-0.515f, -0.0032f, 0.071f));
+            Traverse.Create(sGPButtonLogMode).Field("activeLocalPos").SetValue(new Vector3(-0.510f, 0.0072f, 0.063f));
             Object.Destroy(bookmark.GetComponent<cakeslice.Outline>());
+            existingLogModeButtons.Add(sGPButtonLogMode);
+
+            return existingLogModeButtons.ToArray();
         }
 
         internal static GameObject MakeEventsUI(GameObject repUI)

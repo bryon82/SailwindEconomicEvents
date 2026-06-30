@@ -2,6 +2,11 @@
 
 All notable changes to this project will be documented in this file.
 
+## [v1.3.1] - 2026-06-30
+
+### Updated
+- Events bookmark in logbook to respond like other bookmarks when selected.
+
 ## [v1.3.0] - 2026-06-30
 
 ### Added
