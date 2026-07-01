@@ -157,7 +157,7 @@ namespace EconomicEvents
         internal void LoadEventsScheduler()
         {
             PortsWithEvents = ModData.GetEventPortListEntry($"{PLUGIN_GUID}.PortsWithEvents");
-            ModData.LoadDict(ModData.GetDictModDataEntry<int,int>($"{PLUGIN_GUID}.RegionChance"), RegionChance);
+            ModData.GetDictEntry($"{PLUGIN_GUID}.RegionChance", RegionChance);
         }
 
         internal void SaveEventsScheduler()
