@@ -5,7 +5,7 @@ All notable changes to this project will be documented in this file.
 ## [v1.3.2] - 2026-07-01
 
 ### Fixed
-- Potential line ending bug for linux users during deserialization of save data.
+- Potential line ending bug for linux users during deserialization of save data on load.
 
 ## [v1.3.1] - 2026-06-30
 
